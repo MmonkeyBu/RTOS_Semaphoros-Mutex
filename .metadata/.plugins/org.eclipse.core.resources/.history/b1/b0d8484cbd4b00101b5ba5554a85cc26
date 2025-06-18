@@ -1,0 +1,532 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body - Exemplo de Cadeia de Tasks com Semáforos
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "cmsis_os.h"
+#include <stdio.h>   // Para snprintf
+#include <string.h>  // Para strlen
+#include <stdlib.h>  // Para rand()
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+#define ADC_READINGS 100    // Número de amostras ADC por ciclo
+#define HISTORY_SIZE 10     // Tamanho do histórico de médias
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1; // Gerado pelo CubeMX
+
+UART_HandleTypeDef huart2; // Gerado pelo CubeMX
+
+/* USER CODE BEGIN PV */
+// Variáveis globais do seu código
+uint16_t bufferADC[ADC_READINGS];
+float mediaADC;
+float historico[HISTORY_SIZE];
+int histIndex = 0;
+
+// CORREÇÃO: Variável para controlar se um processo está ativo
+volatile uint8_t processo_ativo = 0;
+
+// Handles dos semáforos
+osSemaphoreId_t semStartHandle;
+osSemaphoreId_t semCalcHandle;
+osSemaphoreId_t semSaveHandle;
+osSemaphoreId_t semSendHandle;
+
+// Opcional: Mutex para a UART, se quiser evitar corrupção de mensagens
+// osMutexId_t uartMutexHandle;
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_USART2_UART_Init(void);
+
+/* USER CODE BEGIN PFP */
+// Prototipos das suas tarefas
+void TaskADC(void *argument);
+void TaskCalc(void *argument);
+void TaskSave(void *argument);
+void TaskSend(void *argument);
+
+// Função auxiliar para enviar string pela UART
+void UART_SendString(char *str);
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+  // CORREÇÃO: Inicializar o gerador de números aleatórios para simulação
+  srand(HAL_GetTick());
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ADC1_Init();
+  MX_USART2_UART_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  // Opcional: Criar o mutex para a UART
+  // uartMutexHandle = osMutexNew(NULL);
+  /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  // Criação dos semáforos binários (contagem máxima 1, contagem inicial 0)
+  semStartHandle = osSemaphoreNew(1, 0, NULL);
+  semCalcHandle = osSemaphoreNew(1, 0, NULL);
+  semSaveHandle = osSemaphoreNew(1, 0, NULL);
+  semSendHandle = osSemaphoreNew(1, 0, NULL);
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* USER CODE BEGIN RTOS_THREADS */
+  // Criação das tarefas
+  // Prioridade padrão é osPriorityNormal. Ajuste conforme necessário.
+  osThreadNew(TaskADC, NULL, NULL);
+  osThreadNew(TaskCalc, NULL, NULL);
+  osThreadNew(TaskSave, NULL, NULL);
+  osThreadNew(TaskSend, NULL, NULL);
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_0; // Certifique-se de que o pino ADC correto está conectado (ex: PA0 para Channel 0)
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE(); // Para o botão (PC13)
+  __HAL_RCC_GPIOA_CLK_ENABLE(); // Para o ADC (PA0)
+
+  /*Configure GPIO pin : PC13 (Botão do usuário) */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING; // Interrupção na borda de subida
+  GPIO_InitStruct.Pull = GPIO_NOPULL;         // Sem pull-up/pull-down externo
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  // A prioridade da interrupção deve ser menor (valor numérico maior) que
+  // configMAX_SYSCALL_INTERRUPT_PRIORITY no FreeRTOSConfig.h
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0); // Prioridade de preempção 5, subprioridade 0
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+// Função auxiliar para enviar string pela UART
+void UART_SendString(char *str) {
+    // Se você habilitar o mutex da UART, descomente as linhas abaixo
+    // if (uartMutexHandle != NULL) {
+    //    osMutexAcquire(uartMutexHandle, osWaitForever);
+    // }
+    HAL_UART_Transmit(&huart2, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
+    // if (uartMutexHandle != NULL) {
+    //    osMutexRelease(uartMutexHandle);
+    // }
+}
+
+// CORREÇÃO: Callback da interrupção externa (botão PC13) - com controle de estado
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    static uint32_t last_interrupt_time = 0;
+    uint32_t current_time = HAL_GetTick();
+
+    // Debounce: Ignora múltiplos pulsos dentro de um curto período
+    if (current_time - last_interrupt_time < 200) { // 200ms de debounce
+        return;
+    }
+    last_interrupt_time = current_time;
+
+    if (GPIO_Pin == GPIO_PIN_13) {
+        // CORREÇÃO: Verifica se já há um processo ativo
+        if (processo_ativo == 0) {
+            processo_ativo = 1;
+            UART_SendString("BOTAO PRESSIONADO - INICIANDO CADEIA\r\n");
+            osSemaphoreRelease(semStartHandle);
+        } else {
+            UART_SendString("PROCESSO JA ATIVO - IGNORANDO BOTAO\r\n");
+        }
+    }
+}
+
+// Implementação das Tarefas
+
+void TaskADC(void *argument) {
+    UART_SendString("TaskADC: Iniciada e aguardando...\r\n");
+    for (;;) {
+        // Aguarda o sinal de start (do botão)
+        osSemaphoreAcquire(semStartHandle, osWaitForever);
+        UART_SendString("TaskADC: Sinal de inicio recebido, coletando amostras...\r\n");
+
+        // Loop de leitura ADC
+        for (int i = 0; i < ADC_READINGS; i++) {
+            // Simulação de leitura ADC (comente para leitura real)
+            bufferADC[i] = rand() % 4096;
+
+            // Leitura ADC real: Descomente e configure seu ADC com DMA se precisar de alta velocidade.
+            // HAL_ADC_Start(&hadc1);
+            // if (HAL_ADC_PollForConversion(&hadc1, 100) == HAL_OK) { // Espera até 100ms
+            //     bufferADC[i] = HAL_ADC_GetValue(&hadc1);
+            // } else {
+            //     bufferADC[i] = 0; // Tratar erro ou valor padrão
+            // }
+            // HAL_ADC_Stop(&hadc1);
+
+            osDelay(10); // Pequeno delay entre as amostras (simula o tempo de aquisição)
+        }
+        UART_SendString("TaskADC: Amostras coletadas! Liberando TaskCalc.\r\n");
+
+        // Libera a próxima tarefa (TaskCalc)
+        osSemaphoreRelease(semCalcHandle);
+    }
+}
+
+void TaskCalc(void *argument) {
+    UART_SendString("TaskCalc: Iniciada e aguardando...\r\n");
+    for (;;) {
+        // Aguarda sinal de cálculo (da TaskADC)
+        osSemaphoreAcquire(semCalcHandle, osWaitForever);
+        UART_SendString("TaskCalc: Sinal de calculo recebido, processando...\r\n");
+
+        uint32_t soma = 0;
+        for (int i = 0; i < ADC_READINGS; i++) {
+            soma += bufferADC[i];
+        }
+        mediaADC = (float)soma / ADC_READINGS;
+
+        char buffer_msg[100];
+        snprintf(buffer_msg, sizeof(buffer_msg), "TaskCalc: Media = %.2f (Raw: %lu). Liberando TaskSave.\r\n", mediaADC, (unsigned long)soma);
+        UART_SendString(buffer_msg);
+
+        // Libera a próxima tarefa (TaskSave)
+        osSemaphoreRelease(semSaveHandle);
+    }
+}
+
+void TaskSave(void *argument) {
+    UART_SendString("TaskSave: Iniciada e aguardando...\r\n");
+    for (;;) {
+        // Aguarda sinal de salvar (da TaskCalc)
+        osSemaphoreAcquire(semSaveHandle, osWaitForever);
+        UART_SendString("TaskSave: Sinal de salvar recebido, armazenando...\r\n");
+
+        // Salva média no histórico circular
+        historico[histIndex] = mediaADC;
+        histIndex = (histIndex + 1) % HISTORY_SIZE;
+
+        char buffer_msg[100];
+        snprintf(buffer_msg, sizeof(buffer_msg), "TaskSave: Media %.2f salva no historico[%d]. Liberando TaskSend.\r\n", mediaADC, (histIndex - 1 + HISTORY_SIZE) % HISTORY_SIZE);
+        UART_SendString(buffer_msg);
+
+        // Libera a próxima tarefa (TaskSend)
+        osSemaphoreRelease(semSendHandle);
+    }
+}
+
+void TaskSend(void *argument) {
+    char buffer[100];
+    UART_SendString("TaskSend: Iniciada e aguardando...\r\n");
+    for (;;) {
+        // Aguarda sinal de enviar (da TaskSave)
+        osSemaphoreAcquire(semSendHandle, osWaitForever);
+        UART_SendString("TaskSend: Sinal de envio recebido, enviando dados...\r\n");
+
+        snprintf(buffer, sizeof(buffer), "Média atual: %.2f\r\n", mediaADC);
+        UART_SendString(buffer);
+
+        // Imprimir histórico completo
+        UART_SendString("=== HISTORICO ATUAL ===\r\n");
+        for (int i = 0; i < HISTORY_SIZE; i++) {
+            snprintf(buffer, sizeof(buffer), "  [%d]: %.2f\r\n", i, historico[i]);
+            UART_SendString(buffer);
+        }
+        UART_SendString("=======================\r\n");
+
+        UART_SendString("Cadeia de processamento completa. Aguardando proximo botao.\r\n\r\n");
+
+        // CORREÇÃO: Resetar o flag de processo ativo para permitir novo ciclo
+        processo_ativo = 0;
+    }
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  * where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */

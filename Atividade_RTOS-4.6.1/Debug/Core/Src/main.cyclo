@@ -1,0 +1,13 @@
+../Core/Src/main.c:123:5:main	1
+../Core/Src/main.c:209:6:SystemClock_Config	3
+../Core/Src/main.c:250:13:MX_ADC1_Init	3
+../Core/Src/main.c:300:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:331:13:MX_GPIO_Init	1
+../Core/Src/main.c:357:6:UART_SendString	1
+../Core/Src/main.c:362:6:HAL_GPIO_EXTI_Callback	4
+../Core/Src/main.c:389:6:TaskADC	3
+../Core/Src/main.c:420:6:TaskCalc	2
+../Core/Src/main.c:450:6:TaskSave	1
+../Core/Src/main.c:477:6:TaskSend	2
+../Core/Src/main.c:517:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:535:6:Error_Handler	1

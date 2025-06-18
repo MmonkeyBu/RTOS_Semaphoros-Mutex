@@ -1,0 +1,56 @@
+22:38:54 **** Incremental Build of configuration Debug for project Atvidade_4_1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartTask1':
+../Core/Src/main.c:295:49: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  295 |     HAL_UART_Transmit(&huart2, (uint8_t *) str, strlen(str), HAL_MAX_DELAY);
+      |                                                 ^~~~~~
+../Core/Src/main.c:22:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   21 | #include "cmsis_os.h"
+  +++ |+#include <string.h>
+   22 | 
+../Core/Src/main.c:295:49: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  295 |     HAL_UART_Transmit(&huart2, (uint8_t *) str, strlen(str), HAL_MAX_DELAY);
+      |                                                 ^~~~~~
+../Core/Src/main.c:295:49: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/main.c:299:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  299 |         HAL_UART_Transmit(&huart2, (uint8_t *) STRemINT, strlen(STRemINT), HAL_MAX_DELAY);
+      |                                    ^
+../Core/Src/main.c:299:65: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  299 |         HAL_UART_Transmit(&huart2, (uint8_t *) STRemINT, strlen(STRemINT), HAL_MAX_DELAY);
+      |                                                                 ^~~~~~~~
+      |                                                                 |
+      |                                                                 uint8_t {aka unsigned char}
+../Core/Src/main.c:299:65: note: expected 'const char *' but argument is of type 'uint8_t' {aka 'unsigned char'}
+../Core/Src/main.c: In function 'StartTask2':
+../Core/Src/main.c:325:49: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  325 |     HAL_UART_Transmit(&huart2, (uint8_t *) str, strlen(str), HAL_MAX_DELAY);
+      |                                                 ^~~~~~
+../Core/Src/main.c:325:49: note: include '<string.h>' or provide a declaration of 'strlen'
+../Core/Src/main.c:330:36: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  330 |         HAL_UART_Transmit(&huart2, (uint8_t *) STRemINT, strlen(STRemINT), HAL_MAX_DELAY);
+      |                                    ^
+../Core/Src/main.c:330:65: warning: passing argument 1 of 'strlen' makes pointer from integer without a cast [-Wint-conversion]
+  330 |         HAL_UART_Transmit(&huart2, (uint8_t *) STRemINT, strlen(STRemINT), HAL_MAX_DELAY);
+      |                                                                 ^~~~~~~~
+      |                                                                 |
+      |                                                                 uint8_t {aka unsigned char}
+../Core/Src/main.c:330:65: note: expected 'const char *' but argument is of type 'uint8_t' {aka 'unsigned char'}
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:85:17: warning: 'lastTick' defined but not used [-Wunused-variable]
+   85 | static uint32_t lastTick = 0;
+      |                 ^~~~~~~~
+arm-none-eabi-gcc -o "Atvidade_4_1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_4_1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_4_1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_4_1.elf
+ 
+arm-none-eabi-size  Atvidade_4_1.elf 
+arm-none-eabi-objdump -h -S Atvidade_4_1.elf  > "Atvidade_4_1.list"
+   text	   data	    bss	    dec	    hex	filename
+  27500	     96	  20968	  48564	   bdb4	Atvidade_4_1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_4_1.list
+ 
+
+22:38:55 Build Finished. 0 errors, 8 warnings. (took 1s.881ms)
+

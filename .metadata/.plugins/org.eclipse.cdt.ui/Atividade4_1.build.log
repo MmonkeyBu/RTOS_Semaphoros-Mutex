@@ -1,0 +1,10 @@
+21:42:59 **** Incremental Build of configuration Debug for project Atividade4_1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade4_1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26652	     96	  20968	  47716	   ba64	Atividade4_1.elf
+Finished building: default.size.stdout
+ 
+
+21:42:59 Build Finished. 0 errors, 0 warnings. (took 250ms)
+

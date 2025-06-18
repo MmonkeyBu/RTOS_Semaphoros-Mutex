@@ -1,0 +1,133 @@
+#include "main.h"
+#include "cmsis_os.h"
+#include <stdio.h>
+
+#define ADC_READINGS 100
+#define HISTORY_SIZE 10
+
+// Variáveis globais
+uint16_t bufferADC[ADC_READINGS];
+float mediaADC;
+float historico[HISTORY_SIZE];
+int histIndex = 0;
+
+// Handles dos semáforos
+osSemaphoreId_t semStartHandle;
+osSemaphoreId_t semCalcHandle;
+osSemaphoreId_t semSaveHandle;
+osSemaphoreId_t semSendHandle;
+
+// Handle UART (definido no CubeMX ou manualmente)
+extern UART_HandleTypeDef huart2;
+
+// Prototipos das tarefas
+void TaskADC(void *argument);
+void TaskCalc(void *argument);
+void TaskSave(void *argument);
+void TaskSend(void *argument);
+
+// Função para enviar string pela UART3
+void UART_SendString(char *str) {
+    HAL_UART_Transmit(&huart2, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
+}
+
+// Callback da interrupção externa (botão PC13)
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    if (GPIO_Pin == GPIO_PIN_13) {
+        // Libera o semáforo que inicia a cadeia de tarefas
+        osSemaphoreRelease(semStartHandle);
+    }
+}
+
+int main(void) {
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+    MX_USART3_UART_Init();
+    MX_ADC1_Init();
+    // ... outras iniciais
+
+    // Criação dos semáforos binários
+    semStartHandle = osSemaphoreNew(1, 0, NULL);
+    semCalcHandle = osSemaphoreNew(1, 0, NULL);
+    semSaveHandle = osSemaphoreNew(1, 0, NULL);
+    semSendHandle = osSemaphoreNew(1, 0, NULL);
+
+    // Criação das tarefas
+    osThreadNew(TaskADC, NULL, NULL);
+    osThreadNew(TaskCalc, NULL, NULL);
+    osThreadNew(TaskSave, NULL, NULL);
+    osThreadNew(TaskSend, NULL, NULL);
+
+    // Iniciar scheduler
+    osKernelStart();
+
+    while (1) {
+    }
+}
+
+// Implementação das tarefas
+
+void TaskADC(void *argument) {
+    for (;;) {
+        // Aguarda o sinal de start
+        osSemaphoreAcquire(semStartHandle, osWaitForever);
+
+        // Simula ou faz leitura ADC 100 vezes
+        for (int i = 0; i < ADC_READINGS; i++) {
+            // Simulação: valor aleatório entre 0 e 4095
+            bufferADC[i] = rand() % 4096;
+
+            // Para leitura real, use HAL_ADC_Start / Poll / GetValue
+            // HAL_ADC_Start(&hadc1);
+            // HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+            // bufferADC[i] = HAL_ADC_GetValue(&hadc1);
+
+            osDelay(10); // Simula tempo de aquisição
+        }
+
+        // Libera próxima tarefa (cálculo)
+        osSemaphoreRelease(semCalcHandle);
+    }
+}
+
+void TaskCalc(void *argument) {
+    for (;;) {
+        // Aguarda sinal de cálculo
+        osSemaphoreAcquire(semCalcHandle, osWaitForever);
+
+        uint32_t soma = 0;
+        for (int i = 0; i < ADC_READINGS; i++) {
+            soma += bufferADC[i];
+        }
+        mediaADC = (float)soma / ADC_READINGS;
+
+        // Libera próxima tarefa (armazenamento)
+        osSemaphoreRelease(semSaveHandle);
+    }
+}
+
+void TaskSave(void *argument) {
+    for (;;) {
+        // Aguarda sinal de salvar
+        osSemaphoreAcquire(semSaveHandle, osWaitForever);
+
+        // Salva média no histórico circular
+        historico[histIndex] = mediaADC;
+        histIndex = (histIndex + 1) % HISTORY_SIZE;
+
+        // Libera próxima tarefa (envio UART)
+        osSemaphoreRelease(semSendHandle);
+    }
+}
+
+void TaskSend(void *argument) {
+    char buffer[50];
+    for (;;) {
+        // Aguarda sinal de enviar
+        osSemaphoreAcquire(semSendHandle, osWaitForever);
+
+        snprintf(buffer, sizeof(buffer), "Média enviada: %.2f\r\n", mediaADC);
+        UART_SendString(buffer);
+    }
+}

@@ -1,0 +1,38 @@
+20:42:19 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartTask1':
+../Core/Src/main.c:306:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  306 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:306:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  306 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask2':
+../Core/Src/main.c:340:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  340 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:340:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  340 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask3':
+../Core/Src/main.c:374:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  374 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:374:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  374 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Atvidade_RTOS-4.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_RTOS-4.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_RTOS-4.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_RTOS-4.1.elf
+ 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+arm-none-eabi-objdump -h -S Atvidade_RTOS-4.1.elf  > "Atvidade_RTOS-4.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  28224	     96	  20984	  49304	   c098	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_RTOS-4.1.list
+ 
+
+20:42:20 Build Finished. 0 errors, 3 warnings. (took 847ms)
+

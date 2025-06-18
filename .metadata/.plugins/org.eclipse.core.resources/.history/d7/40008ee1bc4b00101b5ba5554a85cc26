@@ -1,0 +1,106 @@
+/* Correções principais - substitua as partes correspondentes no seu código */
+
+/* 1. CORREÇÃO NO MAIN - Descomente a linha do srand */
+int main(void)
+{
+  /* USER CODE BEGIN 1 */
+  // CORREÇÃO: Descomente esta linha
+  srand(HAL_GetTick()); // Inicializar o gerador de números aleatórios
+  /* USER CODE END 1 */
+
+  // ... resto do código permanece igual
+}
+
+/* 2. CORREÇÃO NA CALLBACK DO BOTÃO - Adicione controle de estado */
+// Adicione esta variável global no início do arquivo, junto com as outras
+volatile uint8_t processo_ativo = 0;
+
+// Callback da interrupção externa (botão PC13) - VERSÃO CORRIGIDA
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    static uint32_t last_interrupt_time = 0;
+    uint32_t current_time = HAL_GetTick();
+
+    // Debounce: Ignora múltiplos pulsos dentro de um curto período
+    if (current_time - last_interrupt_time < 200) { // 200ms de debounce
+        return;
+    }
+    last_interrupt_time = current_time;
+
+    if (GPIO_Pin == GPIO_PIN_13) {
+        // CORREÇÃO: Verifica se já há um processo ativo
+        if (processo_ativo == 0) {
+            processo_ativo = 1;
+            UART_SendString("BOTAO PRESSIONADO - INICIANDO CADEIA\r\n");
+            osSemaphoreRelease(semStartHandle);
+        } else {
+            UART_SendString("PROCESSO JA ATIVO - IGNORANDO BOTAO\r\n");
+        }
+    }
+}
+
+/* 3. CORREÇÃO NA TaskSend - Resetar o estado do processo */
+void TaskSend(void *argument) {
+    char buffer[100];
+    UART_SendString("TaskSend: Iniciada e aguardando...\r\n");
+    for (;;) {
+        // Aguarda sinal de enviar (da TaskSave)
+        osSemaphoreAcquire(semSendHandle, osWaitForever);
+        UART_SendString("TaskSend: Sinal de envio recebido, enviando dados...\r\n");
+
+        snprintf(buffer, sizeof(buffer), "Média atual: %.2f\r\n", mediaADC);
+        UART_SendString(buffer);
+
+        // Imprimir histórico completo
+        UART_SendString("=== HISTORICO ATUAL ===\r\n");
+        for (int i = 0; i < HISTORY_SIZE; i++) {
+            snprintf(buffer, sizeof(buffer), "  [%d]: %.2f\r\n", i, historico[i]);
+            UART_SendString(buffer);
+        }
+        UART_SendString("=======================\r\n");
+
+        UART_SendString("Cadeia de processamento completa. Aguardando proximo botao.\r\n\r\n");
+
+        // CORREÇÃO: Resetar o flag de processo ativo
+        processo_ativo = 0;
+    }
+}
+
+/* SOLUÇÃO ALTERNATIVA - Usando Event Flags (Mais Elegante) */
+
+// Se quiser usar uma abordagem mais elegante, substitua os semáforos por Event Flags:
+
+/* No início do arquivo, substitua as declarações dos semáforos por: */
+/*
+osEventFlagsId_t eventFlagsHandle;
+
+// Definir os bits dos eventos
+#define EVENT_START_ADC    (1UL << 0)
+#define EVENT_START_CALC   (1UL << 1)
+#define EVENT_START_SAVE   (1UL << 2)
+#define EVENT_START_SEND   (1UL << 3)
+*/
+
+/* No main(), substitua a criação dos semáforos por: */
+/*
+eventFlagsHandle = osEventFlagsNew(NULL);
+*/
+
+/* Nas tarefas, substitua os semáforos por: */
+/*
+// Em TaskADC:
+osEventFlagsWait(eventFlagsHandle, EVENT_START_ADC, osFlagsWaitAny, osWaitForever);
+// ... processamento ...
+osEventFlagsSet(eventFlagsHandle, EVENT_START_CALC);
+
+// Em TaskCalc:
+osEventFlagsWait(eventFlagsHandle, EVENT_START_CALC, osFlagsWaitAny, osWaitForever);
+// ... processamento ...
+osEventFlagsSet(eventFlagsHandle, EVENT_START_SAVE);
+
+// E assim por diante...
+*/
+
+/* Na callback do botão: */
+/*
+osEventFlagsSet(eventFlagsHandle, EVENT_START_ADC);
+*/

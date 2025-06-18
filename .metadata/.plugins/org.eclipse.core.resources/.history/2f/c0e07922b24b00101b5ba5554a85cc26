@@ -1,0 +1,648 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body - Exercício 5 Corrigido
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "cmsis_os.h"
+#include <string.h>  // Added for strlen() and sprintf()
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+
+UART_HandleTypeDef huart2;
+
+/* Definitions for TaskStartADC */
+osThreadId_t TaskStartADCHandle;
+const osThreadAttr_t TaskStartADC_attributes = {
+  .name = "TaskStartADC",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for TaskCalc */
+osThreadId_t TaskCalcHandle;
+const osThreadAttr_t TaskCalc_attributes = {
+  .name = "TaskCalc",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for TaskSend */
+osThreadId_t TaskSendHandle;
+const osThreadAttr_t TaskSend_attributes = {
+  .name = "TaskSend",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for TaskSave */
+osThreadId_t TaskSaveHandle;
+const osThreadAttr_t TaskSave_attributes = {
+  .name = "TaskSave",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for semSend */
+osSemaphoreId_t semSendHandle;
+const osSemaphoreAttr_t semSend_attributes = {
+  .name = "semSend"
+};
+/* Definitions for semCalc */
+osSemaphoreId_t semCalcHandle;
+const osSemaphoreAttr_t semCalc_attributes = {
+  .name = "semCalc"
+};
+/* Definitions for semSave */
+osSemaphoreId_t semSaveHandle;
+const osSemaphoreAttr_t semSave_attributes = {
+  .name = "semSave"
+};
+/* Definitions for semStartADC */
+osSemaphoreId_t semStartADCHandle;
+const osSemaphoreAttr_t semStartADC_attributes = {
+  .name = "semStartADC"
+};
+/* Definitions for semStart */
+osSemaphoreId_t semStartHandle;
+const osSemaphoreAttr_t semStart_attributes = {
+  .name = "semStart"
+};
+/* USER CODE BEGIN PV */
+uint32_t adc_samples[100];           // Buffer para 100 amostras ADC (removed duplicate)
+float media_calculada = 0.0;         // Média calculada
+volatile uint8_t processo_ativo = 0; // Flag para controle do processo
+volatile uint8_t ciclo_atual = 0;    // Contador de ciclos (0-9)
+float historico[10] = {0};          // Histórico de médias (GLOBAL)
+uint8_t historico_index = 0;        // Índice circular para histórico
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ADC1_Init(void);
+static void MX_USART2_UART_Init(void);
+void StartTaskADC(void *argument);
+void StartTaskCalc(void *argument);
+void StartSend(void *argument);
+void StartTaskSave(void *argument);
+
+/* USER CODE BEGIN PFP */
+void UART_Send_String(char* str);
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ADC1_Init();
+  MX_USART2_UART_Init();
+  /* USER CODE BEGIN 2 */
+
+  /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* Create the semaphores(s) */
+  /* creation of semSend */
+  semSendHandle = osSemaphoreNew(1, 0, &semSend_attributes);
+
+  /* creation of semCalc */
+  semCalcHandle = osSemaphoreNew(1, 0, &semCalc_attributes);
+
+  /* creation of semSave */
+  semSaveHandle = osSemaphoreNew(1, 0, &semSave_attributes);
+
+  /* creation of semStartADC */
+  semStartADCHandle = osSemaphoreNew(1, 0, &semStartADC_attributes);
+
+  /* creation of semStart */
+  semStartHandle = osSemaphoreNew(1, 0, &semStart_attributes);
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of TaskStartADC */
+  TaskStartADCHandle = osThreadNew(StartTaskADC, NULL, &TaskStartADC_attributes);
+
+  /* creation of TaskCalc */
+  TaskCalcHandle = osThreadNew(StartTaskCalc, NULL, &TaskCalc_attributes);
+
+  /* creation of TaskSend */
+  TaskSendHandle = osThreadNew(StartSend, NULL, &TaskSend_attributes);
+
+  /* creation of TaskSave */
+  TaskSaveHandle = osThreadNew(StartTaskSave, NULL, &TaskSave_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
+  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+/**
+  * @brief  Envia string via UART de forma simplificada
+  * @param  str: String a ser enviada
+  * @retval None
+  */
+void UART_Send_String(char* str)
+{
+    HAL_UART_Transmit(&huart2, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
+}
+
+/**
+  * @brief EXTI line detection callback.
+  * @param GPIO_Pin: Specifies the pins connected EXTI line
+  * @retval None
+  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    static uint32_t last_interrupt_time = 0;
+    uint32_t current_time = HAL_GetTick();
+
+    // Debouncing
+    if (current_time - last_interrupt_time < 200) {
+        return;
+    }
+    last_interrupt_time = current_time;
+
+    if (GPIO_Pin == GPIO_PIN_13) {
+        // Ativa o processo e inicia a cadeia
+        processo_ativo = 1;
+        ciclo_atual = 0;
+
+        UART_Send_String("BOTAO PRESSIONADO - INICIANDO CADEIA\r\n");
+        osSemaphoreRelease(semStartHandle);
+    }
+}
+/* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartTaskADC */
+/**
+  * @brief  Function implementing the TaskADC thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartTaskADC */
+void StartTaskADC(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  UART_Send_String("TaskADC: Iniciada e aguardando...\r\n");
+
+  /* Infinite loop */
+  for(;;)
+  {
+    // Aguarda semStart
+    if (osSemaphoreAcquire(semStartHandle, osWaitForever) == osOK) {
+
+        // Coleta 100 amostras ADC
+        for(int i = 0; i < 100; i++) {
+          HAL_ADC_Start(&hadc1);
+          char msg[100];
+          sprintf(msg, "TaskADC: Coletando 100 amostras - Ciclo %d/10\r\n", i + 1);
+          UART_Send_String(msg);
+          if(HAL_ADC_PollForConversion(&hadc1, 100) == HAL_OK) {
+            adc_samples[i] = HAL_ADC_GetValue(&hadc1);
+          } else {
+            adc_samples[i] = 0; // Valor padrão em caso de erro
+          }
+          HAL_ADC_Stop(&hadc1);
+          osDelay(10);//por amostra(simulado)
+        }
+
+        UART_Send_String("TaskADC: 100 amostras coletadas! Liberando TaskCalc\r\n");
+
+        // Libera semáforo para TaskCalc processar
+        osSemaphoreRelease(semCalcHandle);
+        osDelay(1000);
+    }
+  }
+  /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_StartTaskCalc */
+/**
+* @brief Function implementing the TaskCalc thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTaskCalc */
+void StartTaskCalc(void *argument)
+{
+  /* USER CODE BEGIN StartTaskCalc */
+  UART_Send_String("TaskCalc: Iniciada e aguardando...\r\n");
+
+  /* Infinite loop */
+  for(;;)
+  {
+    // Aguarda sinal da TaskADC
+    if (osSemaphoreAcquire(semCalcHandle, osWaitForever) == osOK) {
+
+      if (processo_ativo) {
+    	UART_Send_String("--------------------------------------------- \r\n");
+        UART_Send_String("TaskCalc: Calculando media das 100 amostras...\r\n");
+
+        // Calcula a média
+        uint32_t soma = 0;
+        for(int i = 0; i < 100; i++) {
+          soma += adc_samples[i];
+        }
+        media_calculada = (float)soma / 100.0f;
+
+        char msg[100];
+        sprintf(msg, "TaskCalc: Media = %.2f (Raw: %lu). Liberando TaskSave\r\n",
+                media_calculada, (unsigned long)soma);
+        UART_Send_String(msg);
+
+        // Libera semáforo para TaskSave
+        osSemaphoreRelease(semSaveHandle);
+      }
+    }
+  }
+  /* USER CODE END StartTaskCalc */
+}
+
+/* USER CODE BEGIN Header_StartSend */
+/**
+* @brief Function implementing the TaskSend thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSend */
+
+/* USER CODE BEGIN Header_StartTaskSave */
+/**
+* @brief Function implementing the TaskSave thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTaskSave */
+void StartTaskSave(void *argument)
+{
+  /* USER CODE BEGIN StartTaskSave */
+  UART_Send_String("TaskSave: Iniciada e aguardando...\r\n");
+
+  for(;;)
+  {
+    if (osSemaphoreAcquire(semSaveHandle, osWaitForever) == osOK) {
+
+      char msg[100];
+      UART_Send_String("---------------------------------------------\r\n"); //So pra melhorar a visao
+      sprintf(msg, "TaskSave: Salvando media %.2f no historico[%d]...\r\n", media_calculada, historico_index);
+      UART_Send_String(msg);
+
+      // Salva no histórico com índice circular
+      historico[historico_index] = media_calculada;
+      historico_index = (historico_index + 1) % 10;
+
+      osDelay(50); // Simula tempo de escrita
+
+      UART_Send_String("Task Save: Valor salvo! Liberando TaskSend...\r\n");
+
+      // Libera TaskSend
+      osSemaphoreRelease(semSendHandle);
+      osDelay(1000);
+    }
+  }
+  /* USER CODE END StartTaskSave */
+}
+
+
+
+void StartSend(void *argument)
+{
+  /* USER CODE BEGIN StartSend */
+  UART_Send_String("TaskSend: Iniciada e aguardando...\r\n");
+
+  /* Infinite loop */
+  for(;;)
+  {
+    if (osSemaphoreAcquire(semSendHandle, osWaitForever) == osOK) {
+
+      UART_Send_String("[TaskSend] Enviando resultado...\r\n");
+
+      // Envia a média
+      char msg[100];
+      sprintf(msg, "Média calculada: %.2f\r\n", media_calculada);
+      UART_Send_String(msg);
+
+      // Mostra histórico
+      UART_Send_String("=== HISTÓRICO ATUAL ===\r\n");
+      for(int i = 0; i < 10; i++) {
+        if(historico[i] != 0.0f) {
+          sprintf(msg, "  [%d]: %.2f\r\n", i, historico[i]);
+          UART_Send_String(msg);
+        }
+      }
+
+      // Incrementa contador de ciclos
+      ciclo_atual++;
+
+      // Verifica se completou 10 ciclos
+      if(ciclo_atual >= 10) {
+        UART_Send_String("=== 10 CICLOS COMPLETADOS - PROCESSO FINALIZADO ===\r\n");
+        processo_ativo = 0;
+        ciclo_atual = 0;
+      }
+
+      UART_Send_String("=== CADEIA COMPLETA - AGUARDANDO PRÓXIMO BOTÃO ===\r\n\r\n");
+    }
+  }
+  /* USER CODE END StartSend */
+}
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM1 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM1)
+  {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */

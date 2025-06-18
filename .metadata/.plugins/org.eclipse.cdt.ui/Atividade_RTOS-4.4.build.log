@@ -1,0 +1,10 @@
+20:36:31 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+
+20:36:31 Build Finished. 0 errors, 0 warnings. (took 240ms)
+

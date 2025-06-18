@@ -1,0 +1,43 @@
+22:37:18 **** Incremental Build of configuration Debug for project RTOS_Atividade-4 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f4xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_hal_msp.d" -MT"Core/Src/stm32f4xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f4xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f4xx_it.d" -MT"Core/Src/stm32f4xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f4xx_it.o"
+../Core/Src/main.c: In function 'task1_init':
+../Core/Src/main.c:296:19: warning: implicit declaration of function 'snprintf' [-Wimplicit-function-declaration]
+  296 |         int len = snprintf(msgBuffer, sizeof(msgBuffer), "Intervalo: %lu ms\r\n", intervalo);
+      |                   ^~~~~~~~
+../Core/Src/main.c:22:1: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+   21 | #include "cmsis_os.h"
+  +++ |+#include <stdio.h>
+   22 | 
+../Core/Src/main.c:296:19: warning: incompatible implicit declaration of built-in function 'snprintf' [-Wbuiltin-declaration-mismatch]
+  296 |         int len = snprintf(msgBuffer, sizeof(msgBuffer), "Intervalo: %lu ms\r\n", intervalo);
+      |                   ^~~~~~~~
+../Core/Src/main.c:296:19: note: include '<stdio.h>' or provide a declaration of 'snprintf'
+../Core/Src/main.c: In function 'task2_init':
+../Core/Src/main.c:323:66: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
+  323 |                 HAL_UART_Transmit(&huart2, (uint8_t*)msgSuspend, strlen(msgSuspend), HAL_MAX_DELAY);
+      |                                                                  ^~~~~~
+../Core/Src/main.c:22:1: note: include '<string.h>' or provide a declaration of 'strlen'
+   21 | #include "cmsis_os.h"
+  +++ |+#include <string.h>
+   22 | 
+../Core/Src/main.c:323:66: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
+  323 |                 HAL_UART_Transmit(&huart2, (uint8_t*)msgSuspend, strlen(msgSuspend), HAL_MAX_DELAY);
+      |                                                                  ^~~~~~
+../Core/Src/main.c:323:66: note: include '<string.h>' or provide a declaration of 'strlen'
+arm-none-eabi-gcc -o "RTOS_Atividade-4.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\RTOS_Atividade_2_PabloDaniel\RTOS_Atividade-4\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_Atividade-4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_Atividade-4.elf
+ 
+arm-none-eabi-size  RTOS_Atividade-4.elf 
+arm-none-eabi-objdump -h -S RTOS_Atividade-4.elf  > "RTOS_Atividade-4.list"
+   text	   data	    bss	    dec	    hex	filename
+  27748	     96	  20824	  48668	   be1c	RTOS_Atividade-4.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_Atividade-4.list
+ 
+
+22:37:19 Build Finished. 0 errors, 4 warnings. (took 1s.569ms)
+

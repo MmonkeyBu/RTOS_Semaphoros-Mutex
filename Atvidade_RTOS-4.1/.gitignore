@@ -1,0 +1,14 @@
+# Arquivos e pastas de build
+Debug/
+Release/
+build/
+
+# Configurações do ambiente de desenvolvimento
+.settings/
+.project
+.cproject
+
+# Arquivos gerados pelo STM32CubeIDE
+*.launch
+*.log
+.mxproject

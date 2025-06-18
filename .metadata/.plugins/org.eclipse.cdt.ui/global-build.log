@@ -1,0 +1,656 @@
+18:04:38 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:04:42 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:11:34 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  43600	    472	  21312	  65384	   ff68	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:26:55 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+18:26:55 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+18:26:56 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+18:26:56 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:26:56 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44480	    472	  21312	  66264	  102d8	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:26:57 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+18:26:58 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+18:26:59 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44480	    472	  21312	  66264	  102d8	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+18:27:05 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44480	    472	  21312	  66264	  102d8	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+18:28:01 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44480	    472	  21312	  66264	  102d8	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:29:34 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44544	    472	  21312	  66328	  10318	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:29:49 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44544	    472	  21312	  66328	  10318	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+18:31:45 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44576	    472	  21312	  66360	  10338	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:43:27 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+18:43:28 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+18:43:28 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+18:43:28 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:43:29 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44424	    472	  21312	  66208	  102a0	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:43:30 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+18:43:30 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+18:43:32 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44424	    472	  21312	  66208	  102a0	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+18:45:29 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+18:45:30 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+18:45:30 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+18:45:30 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:45:31 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'HAL_GPIO_EXTI_Callback':
+../Core/Src/main.c:384:17: error: unknown type name 'Verifica'
+  384 |                 Verifica se já há um processo ativo
+      |                 ^~~~~~~~
+../Core/Src/main.c:384:29: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'j\U000000e1'
+  384 |                 Verifica se já há um processo ativo
+      |                             ^~
+../Core/Src/main.c:391:17: error: expected '}' before 'else'
+  391 |                 else
+      |                 ^~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:396:1: error: expected identifier or '(' before '}' token
+  396 | }
+      | ^
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+18:45:31 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+18:45:32 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+18:45:42 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+18:45:42 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+18:45:43 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+18:45:43 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+18:45:44 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+18:45:44 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+18:45:45 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:17:23 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+20:18:26 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atividade_RTOS-4.6.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atividade_RTOS-4.6.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atividade_RTOS-4.6.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atividade_RTOS-4.6.1.elf
+ 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+arm-none-eabi-objdump -h -S Atividade_RTOS-4.6.1.elf  > "Atividade_RTOS-4.6.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atividade_RTOS-4.6.1.list
+ 
+20:23:29 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+20:24:45 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+20:25:53 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+20:25:54 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+20:25:54 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+20:25:54 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+20:25:55 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+20:25:55 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+20:25:56 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:27:05 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:28:06 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:28:25 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+20:29:17 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:31:26 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27788	     96	  20984	  48868	   bee4	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:33:50 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Atvidade_RTOS-4.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_RTOS-4.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_RTOS-4.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_RTOS-4.1.elf
+ 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+arm-none-eabi-objdump -h -S Atvidade_RTOS-4.1.elf  > "Atvidade_RTOS-4.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  28260	     96	  20984	  49340	   c0bc	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_RTOS-4.1.list
+ 
+20:35:38 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+20:35:38 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+20:35:39 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+20:35:39 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+20:35:40 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+20:35:40 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+20:35:40 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartTask1':
+../Core/Src/main.c:315:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  315 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:315:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  315 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask2':
+../Core/Src/main.c:354:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  354 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:354:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  354 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Atvidade_RTOS-4.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_RTOS-4.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_RTOS-4.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_RTOS-4.1.elf
+ 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+arm-none-eabi-objdump -h -S Atvidade_RTOS-4.1.elf  > "Atvidade_RTOS-4.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  28220	     96	  20984	  49300	   c094	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_RTOS-4.1.list
+ 
+20:35:42 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28220	     96	  20984	  49300	   c094	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:36:30 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.2 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28500	     96	  20984	  49580	   c1ac	Atividade_RTOS-4.2.elf
+Finished building: default.size.stdout
+ 
+20:36:31 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.3 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27184	     96	  20976	  48256	   bc80	Atividade_RTOS-4.3.elf
+Finished building: default.size.stdout
+ 
+20:36:31 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.4 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.4.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27240	     96	  20976	  48312	   bcb8	Atividade_RTOS-4.4.elf
+Finished building: default.size.stdout
+ 
+20:36:31 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.5 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.5.elf 
+   text	   data	    bss	    dec	    hex	filename
+  43748	    472	  21472	  65692	  1009c	Atividade_RTOS-4.5.elf
+Finished building: default.size.stdout
+ 
+20:36:32 **** Incremental Build of configuration Debug for project Atividade_RTOS-4.6.1 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_RTOS-4.6.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  44228	    472	  21312	  66012	  101dc	Atividade_RTOS-4.6.1.elf
+Finished building: default.size.stdout
+ 
+20:36:32 **** Incremental Build of configuration Debug for project Atividade_Roteiro-4.6 ****
+make -j12 all 
+arm-none-eabi-size  Atividade_Roteiro-4.6.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25748	     96	  20968	  46812	   b6dc	Atividade_Roteiro-4.6.elf
+Finished building: default.size.stdout
+ 
+20:36:32 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartTask1':
+../Core/Src/main.c:315:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  315 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:315:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  315 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask2':
+../Core/Src/main.c:354:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  354 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:354:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  354 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask3':
+../Core/Src/main.c:388:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  388 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:388:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  388 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Atvidade_RTOS-4.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_RTOS-4.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_RTOS-4.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_RTOS-4.1.elf
+ 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+arm-none-eabi-objdump -h -S Atvidade_RTOS-4.1.elf  > "Atvidade_RTOS-4.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  28224	     96	  20984	  49304	   c098	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_RTOS-4.1.list
+ 
+20:36:34 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28224	     96	  20984	  49304	   c098	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+20:42:19 **** Incremental Build of configuration Debug for project Atvidade_RTOS-4.1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartTask1':
+../Core/Src/main.c:306:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  306 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:306:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  306 |     sprintf(buffer, "Task 1 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask2':
+../Core/Src/main.c:340:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  340 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:340:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  340 |     sprintf(buffer, "Task 2 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c: In function 'StartTask3':
+../Core/Src/main.c:374:77: warning: 'sprintf' writing a terminating nul past the end of the destination [-Wformat-overflow=]
+  374 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |                                                                             ^
+../Core/Src/main.c:374:5: note: 'sprintf' output between 51 and 60 bytes into a destination of size 50
+  374 |     sprintf(buffer, "Task 3 ADQUIRIU o semaforo. \n Vagas restantes: %lu\r\n", count);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "Atvidade_RTOS-4.1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\pdnv2\STM32CubeIDE\workspace_1.18.1\Atividade_aula4\Atvidade_RTOS-4.1\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Atvidade_RTOS-4.1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Atvidade_RTOS-4.1.elf
+ 
+arm-none-eabi-size  Atvidade_RTOS-4.1.elf 
+arm-none-eabi-objdump -h -S Atvidade_RTOS-4.1.elf  > "Atvidade_RTOS-4.1.list"
+   text	   data	    bss	    dec	    hex	filename
+  28224	     96	  20984	  49304	   c098	Atvidade_RTOS-4.1.elf
+Finished building: default.size.stdout
+ 
+Finished building: Atvidade_RTOS-4.1.list
+ 
